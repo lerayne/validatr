@@ -6,46 +6,63 @@
  * To change this template use File | Settings | File Templates.
  */
 
-// проверка данных формы
+// РїСЂРѕРІРµСЂРєР° РґР°РЅРЅС‹С… С„РѕСЂРјС‹
 // requires: jQuery > 1.5; bind
-Validatr = function (config, functions) {
+Validatr = function (config) {
 	var $ = jQuery;
 	bind(this);
 
-	// наборы данных
+	// РЅР°Р±РѕСЂС‹ РґР°РЅРЅС‹С…
 	this.txt = {
 		ru:{
-			'err_required':'Это поле должно быть заполнено',
-			'err_filetypes':'Выбран файл недопустимого типа',
-			'err_required_box':'Этот флаг должен быть отмечен',
-			'err_sysname':'Только латинские символы, цифры и _',
-			'err_yyyy.MM.dd':'Нужна дата в формате yyyy.MM.dd',
-			'err_phone':'От 7 до 20 знаков: только цифры, скобки, пробел, + и -',
-			'err_number':'Требуется число',
-			'err_email':'Требуется адрес e-mail',
-			'err_eqref':'Пароли должны совпадать',
-			'err_custom_exp': 'Неверный формат',
-			'err_symbolsmin':'Слишком короткое значение',
-			'err_symbolsmax':'Слишком длинное значение'
+			'err_required':'Р­С‚Рѕ РїРѕР»Рµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р·Р°РїРѕР»РЅРµРЅРѕ',
+			'err_filetypes':'Р’С‹Р±СЂР°РЅ С„Р°Р№Р» РЅРµРґРѕРїСѓСЃС‚РёРјРѕРіРѕ С‚РёРїР°',
+			'err_required_box':'Р­С‚РѕС‚ С„Р»Р°Рі РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚РјРµС‡РµРЅ',
+			'err_sysname':'РўРѕР»СЊРєРѕ Р»Р°С‚РёРЅСЃРєРёРµ СЃРёРјРІРѕР»С‹, С†РёС„СЂС‹ Рё _',
+			'err_yyyy.MM.dd':'РќСѓР¶РЅР° РґР°С‚Р° РІ С„РѕСЂРјР°С‚Рµ yyyy.MM.dd',
+			'err_phone':'РћС‚ 7 РґРѕ 20 Р·РЅР°РєРѕРІ: С‚РѕР»СЊРєРѕ С†РёС„СЂС‹, СЃРєРѕР±РєРё, РїСЂРѕР±РµР», + Рё -',
+			'err_number':'РўСЂРµР±СѓРµС‚СЃСЏ С‡РёСЃР»Рѕ',
+			'err_email':'РўСЂРµР±СѓРµС‚СЃСЏ Р°РґСЂРµСЃ e-mail',
+			'err_eqref':'РџР°СЂРѕР»Рё РґРѕР»Р¶РЅС‹ СЃРѕРІРїР°РґР°С‚СЊ',
+			'err_custom_exp': 'РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚',
+			'err_symbolsmin':'РЎР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРѕРµ Р·РЅР°С‡РµРЅРёРµ',
+			'err_symbolsmax':'РЎР»РёС€РєРѕРј РґР»РёРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ'
+		},
+
+		en:{
+			'err_required':'This field is required',
+			'err_filetypes':'Wrong file type',
+			'err_required_box':'This box must be checked',
+			'err_sysname':'Just a-z & _',
+			'err_yyyy.MM.dd':'Expecting date in yyyy.MM.dd',
+			'err_phone':'7 to 20 chars: numbers, brackets, + & -',
+			'err_number':'Expecting number',
+			'err_email':'Expecting valid e-mail',
+			'err_eqref':'Passwords must match',
+			'err_custom_exp': 'Wrong format',
+			'err_symbolsmin':'Value is too short',
+			'err_symbolsmax':'Value is too long'
 		}
 	}
 
-	// добавлять объект customFuncs вручную после инициализации
+	// РґРѕР±Р°РІР»СЏС‚СЊ РѕР±СЉРµРєС‚ customFuncs РІСЂСѓС‡РЅСѓСЋ РїРѕСЃР»Рµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
 	//this.customFuncs = (typeof functions == 'object') ? functions : {};
 
-	// конфиг по умолчанию
+	// РєРѕРЅС„РёРі РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	this.config = {
+		form:false,
 		passDisabled:false,
-		language:'ru',
+		language:'en',
 		notform:false,
 		submitFunction: false,
-		validationOff:false
-	}
+		validationOff:false,
+		validateAllBtn:false
+	};
 
-	// загрузка конфига
+	// Р·Р°РіСЂСѓР·РєР° РєРѕРЅС„РёРіР°
 	for (var i in config) this.config[i] = config[i];
 
-	// базовые рабочие параметры
+	// Р±Р°Р·РѕРІС‹Рµ СЂР°Р±РѕС‡РёРµ РїР°СЂР°РјРµС‚СЂС‹
 	this.valid = $([]);
 	this.invalids = $([]);
 	this.batchValidationsRemains = -1;
@@ -57,12 +74,12 @@ Validatr = function (config, functions) {
 		this.form.find('input[vldtr-enabled="true"], textarea[vldtr-enabled="true"], select[vldtr-enabled="true"]')
 			.not(this.submit);
 
-	// обработка случая, когда проверяется часть формы
-	if (!this.form.is('form') || this.config.notform == true || typeof this.config.validateAllBtn != 'undefined'){
+	// РѕР±СЂР°Р±РѕС‚РєР° СЃР»СѓС‡Р°СЏ, РєРѕРіРґР° РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ С‡Р°СЃС‚СЊ С„РѕСЂРјС‹
+	if (!this.form.is('form') || this.config.notform == true || !!this.config.validateAllBtn){
 		this.submit = this.config.validateAllBtn;
 	}
 
-	// установка событий
+	// СѓСЃС‚Р°РЅРѕРІРєР° СЃРѕР±С‹С‚РёР№
 	this.elements.change(this.resetSubmit);
 	this.elements.change(this.validate);
 
@@ -96,7 +113,7 @@ Validatr.prototype = {
 			}
 		}
 
-		// автоматическая валидация
+		// Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РІР°Р»РёРґР°С†РёСЏ
 		if ((this.config.passDisabled && element.attr('disabled')) || this.config.validationOff ) {
 			this.addToValid(element); return;
 		}
@@ -108,7 +125,7 @@ Validatr.prototype = {
 		if (!!element.attr('vldtr-required') && element.prop('vldtr-required') != 'false') {
 
 			if (!element.val() || element.val().match(/^\s*$/)) return this.invalid(element, 'err_required');
-			// не помню, в каком случае нужна проверка на равенство нулю, но проверка на двоеточие нужна, чтобы время не приравнивалось к нулю
+			// РЅРµ РїРѕРјРЅСЋ, РІ РєР°РєРѕРј СЃР»СѓС‡Р°Рµ РЅСѓР¶РЅР° РїСЂРѕРІРµСЂРєР° РЅР° СЂР°РІРµРЅСЃС‚РІРѕ РЅСѓР»СЋ, РЅРѕ РїСЂРѕРІРµСЂРєР° РЅР° РґРІРѕРµС‚РѕС‡РёРµ РЅСѓР¶РЅР°, С‡С‚РѕР±С‹ РІСЂРµРјСЏ РЅРµ РїСЂРёСЂР°РІРЅРёРІР°Р»РѕСЃСЊ Рє РЅСѓР»СЋ
 			if (element.val().indexOf(':') == -1 && parseInt(element.val(),10) == 0) return this.invalid(element, 'err_required');
 			if (element.is('[type="checkbox"]') && !element.is(':checked')) return this.invalid(element, 'err_required_box');
 			if (element.is('select') && (parseInt(element.val(),10) == 0 || parseInt(element.val(),10) == -1)) return this.invalid(element, 'err_required');
@@ -258,12 +275,12 @@ Validatr.prototype = {
 		if (errorMessage.size() == 0) {
 
 			element.css('border-color', 'red');
-			errorMessage = jQuery('<div class="vldtr-error" style="font-size:10px; color:red; display:none; white-space: normal">' +
+			errorMessage = jQuery('<div class="vldtr-error">' +
 				errMsg + '</div>');
 
 			messageContainer.append(errorMessage);
 
-			errorMessage.width(parent.width());
+			//errorMessage.width(parent.width());
 			errorMessage.slideDown(100);
 
 		} else {
