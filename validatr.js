@@ -287,7 +287,7 @@ Validatr.prototype = {
 			errorMessage.html(errMsg)
 		}
 
-		console.error('ERROR in field "' + element.prop('name') + '" with value "' + element.val() + '": ' + errMsg)
+		console.warn('ERROR in field "' + element.prop('name') + '" with value "' + element.val() + '": ' + errMsg)
 		this.validateNext();
 
 		return false;
